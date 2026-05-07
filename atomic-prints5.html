@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atomic Prints – Precision 3D Printing</title>
+<meta name="description" content="Atomic Prints – Custom 3D printing services. Order precision parts, prototypes, and unique designs. Fast turnaround, premium materials.">
+<meta name="keywords" content="3D printing, custom prints, atomic prints, rapid prototyping, 3D printed parts">
+<meta property="og:title" content="Atomic Prints – Precision 3D Printing">
+<meta property="og:description" content="Custom 3D printing services – prototypes, production runs, and unique designs.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#00BFFF;
+  --pink:#FF2D78;
+  --dark:#050810;
+  --darker:#020408;
+  --mid:#0A0F1E;
+  --card:#0D1526;
+  --card2:#111929;
+  --blue-dim:rgba(0,191,255,0.12);
+  --pink-dim:rgba(255,45,120,0.12);
+  --blue-glow:rgba(0,191,255,0.35);
+  --pink-glow:rgba(255,45,120,0.35);
+  --text:#C8D8F0;
+  --font-display:'Rajdhani',sans-serif;
+  --font-mono:'Share Tech Mono',monospace;
+  --font-body:'Exo 2',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--dark);color:var(--text);overflow-x:hidden;line-height:1.6}
+input,textarea,select{font-family:var(--font-body)}
+button{cursor:pointer;font-family:var(--font-display)}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--darker)}
+::-webkit-scrollbar-thumb{background:var(--pink);border-radius:2px}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;height:64px;
+  background:rgba(5,8,16,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,191,255,0.15);
+}
+.nav-logo{
+  font-family:var(--font-display);font-size:1.3rem;font-weight:700;
+  color:#fff;text-decoration:none;letter-spacing:0.08em;
+  display:flex;align-items:center;gap:10px
+}
+.logo-atom{width:28px;height:28px;flex-shrink:0}
+.nav-tabs{display:flex;gap:0;list-style:none}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--blue);border-radius:2px;transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{
+  display:none;position:fixed;top:64px;left:0;right:0;z-index:199;
+  background:rgba(5,8,16,0.98);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,191,255,0.15);
+  flex-direction:column;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu .nav-tab{
+  height:52px;width:100%;text-align:left;padding:0 1.5rem;
+  border-bottom:1px solid rgba(0,191,255,0.06);border-right:none;
+  justify-content:flex-start;
+}
+.mobile-menu a.nav-tab{display:flex;align-items:center}
+@media(max-width:768px){
+  nav{padding:0 1.2rem}
+  .nav-tabs{display:none}
+  .hamburger{display:flex}
+  .cart-btn{padding:0 0.5rem;font-size:0.75rem}
+  .hero{padding:5rem 1.2rem 3rem;min-height:auto}
+  .atom-hero{display:none}
+  h1.hero-title{font-size:2.4rem}
+  .hero-sub{font-size:0.95rem}
+  .hero-actions{flex-direction:column;align-items:flex-start}
+  .btn-blue,.btn-pink,.btn-outline-blue{width:100%;text-align:center;justify-content:center}
+  .section{padding:3rem 1.2rem}
+  .auth-wrap{padding:1.5rem 1rem}
+  .auth-card{padding:1.8rem 1.2rem}
+  .order-wrap{padding:1.5rem 1rem}
+  .order-card{padding:1.5rem 1rem}
+  .admin-wrap{padding:1.5rem 1rem}
+  .admin-stats{grid-template-columns:1fr 1fr}
+  .upload-section{padding:1.2rem}
+  .form-row{grid-template-columns:1fr}
+  .table-head{grid-template-columns:2fr 1fr;gap:0.5rem;padding:0.6rem 0.8rem}
+  .table-head div:nth-child(3),.table-head div:nth-child(4){display:none}
+  .table-row{grid-template-columns:2fr 1fr;gap:0.5rem;padding:0.7rem 0.8rem}
+  .table-row .tcat,.table-row .tactions{display:none}
+  .shop-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem}
+  footer{flex-direction:column;text-align:center;padding:1.5rem 1rem;gap:1rem}
+  .footer-links{flex-wrap:wrap;justify-content:center;gap:1rem}
+  .admin-header{flex-direction:column;align-items:flex-start;gap:1rem}
+  .modal{padding:1.2rem;width:95%}
+  .quote-form{flex-direction:column}
+}
+.nav-tab{
+  padding:0 1.2rem;height:64px;display:flex;align-items:center;
+  font-family:var(--font-display);font-size:0.85rem;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,216,240,0.55);
+  border:none;background:none;transition:color 0.2s,background 0.2s;
+  border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;
+}
+.nav-tab:hover{color:var(--blue);background:var(--blue-dim)}
+.nav-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.nav-tab.pink-tab:hover{color:var(--pink);background:var(--pink-dim)}
+.nav-tab.pink-tab.active{color:var(--pink);border-bottom-color:var(--pink)}
+.nav-tab.admin-tab{color:rgba(255,45,120,0.4);font-size:0.75rem}
+.nav-tab.admin-tab:hover{color:var(--pink);background:var(--pink-dim)}
+.nav-tab.admin-tab.active{color:var(--pink);border-bottom-color:var(--pink)}
+
+/* ── PAGES ── */
+.page{display:none;padding-top:64px;min-height:100vh}
+.page.active{display:block}
+
+/* ── HERO ── */
+.hero{
+  min-height:calc(100vh - 64px);display:flex;align-items:center;
+  position:relative;padding:4rem 3rem;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 70% at 20% 50%,rgba(0,191,255,0.08) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 60% at 80% 40%,rgba(255,45,120,0.08) 0%,transparent 60%),
+    var(--dark);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,191,255,0.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,191,255,0.05) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.hero-content{position:relative;z-index:2;max-width:650px}
+.eyebrow{
+  font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.2em;
+  color:var(--blue);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--blue)}
+h1.hero-title{
+  font-family:var(--font-display);font-size:clamp(3rem,5.5vw,5rem);
+  font-weight:700;line-height:1.0;color:#fff;letter-spacing:0.02em;margin-bottom:1.2rem;
+}
+h1.hero-title .pink{color:var(--pink)}
+h1.hero-title .blue{color:var(--blue)}
+.hero-sub{font-size:1.05rem;color:rgba(200,216,240,0.65);max-width:500px;margin-bottom:2.5rem;line-height:1.75}
+.btn-blue{
+  background:linear-gradient(135deg,#0099CC,var(--blue));
+  color:#000;padding:0.8rem 2rem;border-radius:3px;text-decoration:none;
+  font-family:var(--font-display);font-weight:700;font-size:0.95rem;
+  letter-spacing:0.08em;border:none;display:inline-block;
+  box-shadow:0 0 20px rgba(0,191,255,0.3);transition:box-shadow 0.2s,transform 0.2s;
+  cursor:pointer;text-transform:uppercase;
+}
+.btn-blue:hover{box-shadow:0 0 32px rgba(0,191,255,0.55);transform:translateY(-1px)}
+.btn-pink{
+  background:linear-gradient(135deg,#CC1155,var(--pink));
+  color:#fff;padding:0.8rem 2rem;border-radius:3px;text-decoration:none;
+  font-family:var(--font-display);font-weight:700;font-size:0.95rem;
+  letter-spacing:0.08em;border:none;display:inline-block;
+  box-shadow:0 0 20px rgba(255,45,120,0.3);transition:box-shadow 0.2s,transform 0.2s;
+  cursor:pointer;text-transform:uppercase;
+}
+.btn-pink:hover{box-shadow:0 0 32px rgba(255,45,120,0.55);transform:translateY(-1px)}
+.btn-outline-blue{
+  border:1px solid rgba(0,191,255,0.4);color:var(--blue);
+  padding:0.8rem 2rem;border-radius:3px;background:none;
+  font-family:var(--font-display);font-weight:600;font-size:0.95rem;
+  letter-spacing:0.08em;cursor:pointer;text-transform:uppercase;
+  transition:background 0.2s,border-color 0.2s;text-decoration:none;display:inline-block;
+}
+.btn-outline-blue:hover{background:var(--blue-dim);border-color:var(--blue)}
+.btn-ghost{
+  border:1px solid rgba(200,216,240,0.15);color:rgba(200,216,240,0.5);
+  padding:0.6rem 1.4rem;border-radius:3px;background:none;
+  font-family:var(--font-display);font-weight:600;font-size:0.82rem;
+  letter-spacing:0.08em;cursor:pointer;text-transform:uppercase;
+  transition:all 0.2s;
+}
+.btn-ghost:hover{border-color:rgba(200,216,240,0.3);color:rgba(200,216,240,0.8)}
+.hero-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+
+/* SCAN LINES */
+.scanlines{
+  position:fixed;inset:0;pointer-events:none;z-index:999;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+}
+
+/* STATS */
+.stats-bar{
+  background:var(--mid);border-top:1px solid rgba(0,191,255,0.1);
+  border-bottom:1px solid rgba(255,45,120,0.1);
+  padding:2rem 3rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center;
+}
+.stat-n{font-family:var(--font-mono);font-size:1.8rem;color:#fff;display:block;margin-bottom:0.2rem}
+.stat-n .u{color:var(--pink)}
+.stat-l{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(200,216,240,0.4)}
+
+/* SECTION */
+.section{padding:5rem 3rem}
+.section.alt{background:var(--mid)}
+.sec-label{
+  font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.22em;
+  color:var(--blue);margin-bottom:0.8rem;display:flex;align-items:center;gap:8px;
+}
+.sec-label.pink{color:var(--pink)}
+.sec-label::before{content:'//';opacity:0.5}
+.sec-title{
+  font-family:var(--font-display);font-size:clamp(1.6rem,2.5vw,2.4rem);
+  font-weight:700;color:#fff;margin-bottom:0.8rem;letter-spacing:0.02em;
+}
+.sec-sub{font-size:0.95rem;color:rgba(200,216,240,0.55);max-width:480px;margin-bottom:2.5rem;line-height:1.75}
+
+/* SHOP */
+.shop-filters{
+  display:flex;gap:0.6rem;margin-bottom:2rem;flex-wrap:wrap;
+}
+.filter-btn{
+  padding:0.4rem 1rem;border-radius:20px;border:1px solid rgba(0,191,255,0.2);
+  background:none;color:rgba(200,216,240,0.5);font-family:var(--font-display);
+  font-size:0.78rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;
+}
+.filter-btn.active,.filter-btn:hover{
+  background:var(--blue-dim);border-color:var(--blue);color:var(--blue);
+}
+.shop-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem;
+}
+.product-card{
+  background:var(--card);border:1px solid rgba(0,191,255,0.1);border-radius:6px;
+  overflow:hidden;transition:border-color 0.25s,transform 0.2s;cursor:pointer;
+}
+.product-card:hover{border-color:rgba(0,191,255,0.35);transform:translateY(-3px)}
+.product-img{
+  width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--mid);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:0.7rem;color:rgba(200,216,240,0.2);
+  letter-spacing:0.1em;overflow:hidden;position:relative;
+}
+.product-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.product-img .img-placeholder{
+  display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+  color:rgba(0,191,255,0.25);font-size:0.7rem;letter-spacing:0.1em;
+}
+.product-info{padding:1rem}
+.product-name{
+  font-family:var(--font-display);font-weight:700;font-size:0.95rem;
+  color:#fff;margin-bottom:0.3rem;letter-spacing:0.03em;
+}
+.product-desc{font-size:0.8rem;color:rgba(200,216,240,0.5);margin-bottom:0.8rem;line-height:1.5}
+.product-price{
+  font-family:var(--font-mono);font-size:1.1rem;color:var(--blue);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.product-price .tag{
+  font-size:0.7rem;background:var(--pink-dim);color:var(--pink);
+  padding:2px 8px;border-radius:2px;font-family:var(--font-display);letter-spacing:0.08em;
+}
+.add-btn{
+  width:100%;margin-top:0.7rem;padding:0.5rem;background:var(--blue-dim);
+  border:1px solid rgba(0,191,255,0.3);border-radius:3px;color:var(--blue);
+  font-family:var(--font-display);font-weight:700;font-size:0.8rem;
+  letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s;
+}
+.add-btn:hover{background:linear-gradient(135deg,#0099CC,var(--blue));color:#000;border-color:var(--blue)}
+.empty-shop{
+  text-align:center;padding:4rem 2rem;color:rgba(200,216,240,0.3);
+  font-family:var(--font-mono);font-size:0.85rem;letter-spacing:0.1em;grid-column:1/-1;
+}
+
+/* AUTH FORMS */
+.auth-wrap{
+  min-height:calc(100vh - 64px);display:flex;align-items:center;
+  justify-content:center;padding:3rem;
+}
+.auth-card{
+  background:var(--card);border:1px solid rgba(0,191,255,0.15);
+  border-radius:8px;padding:3rem;width:100%;max-width:420px;
+  box-shadow:0 0 60px rgba(0,191,255,0.05);
+}
+.auth-card.pink-card{border-color:rgba(255,45,120,0.2);box-shadow:0 0 60px rgba(255,45,120,0.06)}
+.auth-title{
+  font-family:var(--font-display);font-size:1.6rem;font-weight:700;
+  color:#fff;margin-bottom:0.4rem;letter-spacing:0.05em;
+}
+.auth-sub{font-size:0.85rem;color:rgba(200,216,240,0.45);margin-bottom:2rem}
+.form-group{margin-bottom:1.2rem}
+.form-group label{
+  display:block;font-family:var(--font-display);font-size:0.75rem;
+  font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(200,216,240,0.5);margin-bottom:0.5rem;
+}
+.form-group input,
+.form-group textarea,
+.form-group select{
+  width:100%;padding:0.75rem 1rem;background:rgba(0,191,255,0.04);
+  border:1px solid rgba(0,191,255,0.15);border-radius:4px;
+  color:#fff;font-size:0.9rem;outline:none;transition:border-color 0.2s;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{border-color:var(--blue)}
+.form-group textarea{min-height:100px;resize:vertical}
+.form-group select option{background:var(--card);color:#fff}
+.form-group.pink-field input:focus,
+.form-group.pink-field textarea:focus{border-color:var(--pink)}
+.form-divider{
+  text-align:center;margin:1rem 0;font-size:0.75rem;
+  color:rgba(200,216,240,0.25);letter-spacing:0.1em;
+}
+.auth-link{
+  color:var(--blue);text-decoration:none;font-size:0.82rem;
+  transition:opacity 0.2s;
+}
+.auth-link:hover{opacity:0.7}
+.auth-link.pink{color:var(--pink)}
+.auth-footer{text-align:center;margin-top:1.5rem;font-size:0.82rem;color:rgba(200,216,240,0.35)}
+
+/* CUSTOM ORDER */
+.order-wrap{
+  max-width:700px;margin:0 auto;padding:3rem;
+}
+.order-card{
+  background:var(--card);border:1px solid rgba(255,45,120,0.15);
+  border-radius:8px;padding:2.5rem;
+}
+.file-drop{
+  border:2px dashed rgba(0,191,255,0.2);border-radius:6px;
+  padding:2.5rem;text-align:center;cursor:pointer;transition:all 0.2s;
+  background:rgba(0,191,255,0.02);
+}
+.file-drop:hover,.file-drop.dragover{
+  border-color:var(--blue);background:var(--blue-dim);
+}
+.file-drop-icon{font-size:2rem;margin-bottom:0.7rem;opacity:0.5}
+.file-drop-label{
+  font-family:var(--font-display);font-size:0.8rem;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);
+  margin-bottom:0.3rem;
+}
+.file-drop-sub{font-size:0.75rem;color:rgba(200,216,240,0.35)}
+.file-list{margin-top:1rem;display:flex;flex-direction:column;gap:0.4rem}
+.file-item{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--blue-dim);border:1px solid rgba(0,191,255,0.15);
+  border-radius:4px;padding:0.4rem 0.8rem;
+  font-family:var(--font-mono);font-size:0.75rem;color:var(--blue);
+}
+.file-item-remove{
+  background:none;border:none;color:rgba(255,45,120,0.6);cursor:pointer;
+  font-size:1rem;line-height:1;transition:color 0.2s;padding:0;
+}
+.file-item-remove:hover{color:var(--pink)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.success-msg{
+  background:rgba(0,191,255,0.08);border:1px solid rgba(0,191,255,0.3);
+  border-radius:4px;padding:1rem;margin-top:1rem;
+  font-family:var(--font-mono);font-size:0.8rem;color:var(--blue);
+  display:none;
+}
+.success-msg.show{display:block}
+.error-msg{
+  background:rgba(255,45,120,0.08);border:1px solid rgba(255,45,120,0.3);
+  border-radius:4px;padding:0.7rem 1rem;margin-bottom:1rem;
+  font-family:var(--font-mono);font-size:0.8rem;color:var(--pink);
+  display:none;
+}
+.error-msg.show{display:block}
+
+/* ADMIN */
+.admin-wrap{max-width:900px;margin:0 auto;padding:3rem}
+.admin-header{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;
+}
+.admin-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;
+}
+.admin-stat{
+  background:var(--card);border:1px solid rgba(255,45,120,0.1);
+  border-radius:6px;padding:1.2rem;
+}
+.admin-stat .n{font-family:var(--font-mono);font-size:1.5rem;color:var(--pink);display:block}
+.admin-stat .l{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,216,240,0.35)}
+.upload-section{
+  background:var(--card);border:1px solid rgba(0,191,255,0.12);
+  border-radius:8px;padding:2rem;margin-bottom:2rem;
+}
+.upload-title{
+  font-family:var(--font-display);font-size:1rem;font-weight:700;
+  color:#fff;letter-spacing:0.06em;margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:8px;
+}
+.upload-title::before{content:'';width:3px;height:18px;background:var(--blue);border-radius:2px}
+.img-preview-grid{display:flex;gap:0.8rem;flex-wrap:wrap;margin-top:0.8rem}
+.img-preview-item{
+  width:72px;height:72px;border-radius:4px;overflow:hidden;
+  border:1px solid rgba(0,191,255,0.2);position:relative;background:var(--mid);
+}
+.img-preview-item img{width:100%;height:100%;object-fit:cover}
+.img-preview-item .rm{
+  position:absolute;top:2px;right:2px;background:rgba(255,45,120,0.85);
+  border:none;color:#fff;width:16px;height:16px;border-radius:50%;
+  font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  line-height:1;padding:0;
+}
+.products-table{
+  background:var(--card);border:1px solid rgba(0,191,255,0.1);
+  border-radius:8px;overflow:hidden;
+}
+.table-head{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;
+  padding:0.8rem 1.2rem;background:rgba(0,191,255,0.06);
+  font-family:var(--font-display);font-size:0.72rem;font-weight:700;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);
+}
+.table-row{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;
+  padding:0.9rem 1.2rem;border-top:1px solid rgba(0,191,255,0.06);
+  align-items:center;transition:background 0.2s;
+}
+.table-row:hover{background:rgba(0,191,255,0.03)}
+.table-row .tname{font-weight:600;color:#fff;font-size:0.88rem}
+.table-row .tprice{font-family:var(--font-mono);color:var(--blue);font-size:0.85rem}
+.table-row .tcat{
+  font-size:0.72rem;background:var(--blue-dim);color:var(--blue);
+  padding:2px 8px;border-radius:2px;font-family:var(--font-display);
+  letter-spacing:0.08em;display:inline-block;
+}
+.table-row .tactions{display:flex;gap:0.4rem}
+.del-btn{
+  padding:0.25rem 0.6rem;background:rgba(255,45,120,0.1);
+  border:1px solid rgba(255,45,120,0.2);border-radius:3px;
+  color:var(--pink);font-family:var(--font-display);font-size:0.7rem;
+  letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;
+}
+.del-btn:hover{background:rgba(255,45,120,0.2);border-color:var(--pink)}
+.no-products{
+  padding:2rem;text-align:center;
+  font-family:var(--font-mono);font-size:0.8rem;color:rgba(200,216,240,0.2);
+  letter-spacing:0.1em;
+}
+
+/* CART BADGE */
+.cart-btn{
+  position:relative;background:none;border:none;
+  color:rgba(200,216,240,0.55);cursor:pointer;
+  font-family:var(--font-display);font-size:0.85rem;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;padding:0 1rem;height:64px;
+  display:flex;align-items:center;gap:6px;transition:color 0.2s;
+}
+.cart-btn:hover{color:var(--blue)}
+.cart-badge{
+  position:absolute;top:14px;right:4px;
+  background:var(--pink);color:#fff;width:18px;height:18px;
+  border-radius:50%;font-size:10px;font-family:var(--font-mono);
+  display:flex;align-items:center;justify-content:center;
+  display:none;
+}
+.cart-badge.visible{display:flex}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:2rem;right:2rem;z-index:1000;
+  background:var(--card2);border:1px solid var(--blue);border-radius:5px;
+  padding:0.8rem 1.4rem;font-family:var(--font-display);font-size:0.85rem;
+  color:var(--blue);letter-spacing:0.05em;
+  transform:translateX(120%);transition:transform 0.3s;
+  box-shadow:0 0 20px rgba(0,191,255,0.2);
+}
+.toast.show{transform:translateX(0)}
+.toast.pink-toast{border-color:var(--pink);color:var(--pink);box-shadow:0 0 20px rgba(255,45,120,0.2)}
+
+/* GLITCH effect on logo */
+@keyframes glitch{
+  0%,94%,100%{text-shadow:none}
+  95%{text-shadow:-2px 0 var(--pink),2px 0 var(--blue)}
+  97%{text-shadow:2px 0 var(--pink),-2px 0 var(--blue)}
+}
+.nav-logo{animation:glitch 6s infinite}
+
+/* ORBIT ANIMATION */
+@keyframes spin1{from{transform:rotate(0deg) translateX(80px) rotate(0deg)}to{transform:rotate(360deg) translateX(80px) rotate(-360deg)}}
+@keyframes spin2{from{transform:rotate(120deg) translateX(55px) rotate(-120deg)}to{transform:rotate(480deg) translateX(55px) rotate(-480deg)}}
+@keyframes spin3{from{transform:rotate(240deg) translateX(100px) rotate(-240deg)}to{transform:rotate(600deg) translateX(100px) rotate(-600deg)}}
+@keyframes ringrot{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes ringrot2{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
+.atom-hero{position:absolute;right:6%;top:50%;transform:translateY(-50%);width:260px;height:260px;z-index:1}
+.atom-nucleus{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:50px;height:50px;
+  background:radial-gradient(circle,rgba(255,45,120,0.9),rgba(255,45,120,0.2));
+  border-radius:50%;border:1px solid rgba(255,45,120,0.7);
+}
+.atom-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid;animation:ringrot 9s linear infinite}
+.atom-ring.r1{width:160px;height:160px;margin:-80px 0 0 -80px;border-color:rgba(0,191,255,0.3);animation-duration:9s}
+.atom-ring.r2{width:230px;height:230px;margin:-115px 0 0 -115px;border-color:rgba(255,45,120,0.2);animation-duration:14s;animation-direction:reverse}
+.atom-el{position:absolute;width:10px;height:10px;border-radius:50%;top:50%;left:50%;margin:-5px 0 0 -5px}
+.atom-el.e1{background:var(--blue);box-shadow:0 0 10px var(--blue);animation:spin1 9s linear infinite}
+.atom-el.e2{background:var(--pink);box-shadow:0 0 10px var(--pink);animation:spin2 14s linear infinite}
+.atom-el.e3{background:#fff;box-shadow:0 0 8px rgba(255,255,255,0.8);animation:spin3 7s linear infinite}
+
+/* CART MODAL */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(5,8,16,0.85);z-index:500;
+  display:none;align-items:center;justify-content:center;
+  backdrop-filter:blur(8px);
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--card);border:1px solid rgba(0,191,255,0.2);
+  border-radius:8px;padding:2rem;width:90%;max-width:480px;
+  max-height:80vh;overflow-y:auto;
+}
+.modal-title{
+  font-family:var(--font-display);font-size:1.2rem;font-weight:700;
+  color:#fff;letter-spacing:0.05em;margin-bottom:1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.modal-close{
+  background:none;border:none;color:rgba(200,216,240,0.4);
+  font-size:1.3rem;cursor:pointer;transition:color 0.2s;line-height:1;
+}
+.modal-close:hover{color:var(--pink)}
+.cart-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.8rem 0;border-bottom:1px solid rgba(0,191,255,0.07);gap:1rem;
+}
+.cart-item-name{font-weight:600;color:#fff;font-size:0.9rem;flex:1}
+.cart-item-price{font-family:var(--font-mono);color:var(--blue);font-size:0.9rem}
+.cart-item-rm{
+  background:none;border:none;color:rgba(255,45,120,0.5);cursor:pointer;
+  font-size:1rem;line-height:1;transition:color 0.2s;padding:0;
+}
+.cart-item-rm:hover{color:var(--pink)}
+.cart-total{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:1rem;margin-top:0.5rem;
+  font-family:var(--font-display);font-weight:700;font-size:1rem;color:#fff;
+}
+.cart-total .total-amt{font-family:var(--font-mono);font-size:1.2rem;color:var(--blue)}
+.cart-empty{text-align:center;padding:2rem;font-family:var(--font-mono);font-size:0.8rem;color:rgba(200,216,240,0.25);letter-spacing:0.1em}
+
+/* FOOTER */
+footer{
+  background:var(--darker);border-top:1px solid rgba(0,191,255,0.08);
+  padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+}
+.footer-logo{font-family:var(--font-display);font-size:0.85rem;font-weight:700;color:rgba(200,216,240,0.3);letter-spacing:0.08em}
+.footer-copy{font-size:0.75rem;color:rgba(200,216,240,0.2)}
+.footer-links{display:flex;gap:1.5rem;list-style:none}
+.footer-links a{font-size:0.75rem;color:rgba(200,216,240,0.2);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s}
+.footer-links a:hover{color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo" onclick="showPage('home');return false">
+    <svg class="logo-atom" viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="14" r="5" fill="#FF2D78"/>
+      <ellipse cx="14" cy="14" rx="12" ry="5" stroke="#00BFFF" stroke-width="1" fill="none" transform="rotate(30 14 14)"/>
+      <ellipse cx="14" cy="14" rx="12" ry="5" stroke="#00BFFF" stroke-width="1" fill="none" transform="rotate(-30 14 14)"/>
+      <circle cx="14" cy="2" r="2.5" fill="#00BFFF"/>
+    </svg>
+    ATOMIC PRINTS
+  </a>
+  <ul class="nav-tabs">
+    <li><button class="nav-tab active" onclick="showPage('home')">Home</button></li>
+    <li><button class="nav-tab" onclick="showPage('shop')">Shop</button></li>
+    <li><button class="nav-tab pink-tab" onclick="showPage('custom')">Custom Order</button></li>
+    <li><button class="nav-tab" onclick="showPage('signin')">Sign In</button></li>
+    
+    <li><button class="nav-tab admin-tab" onclick="checkAdmin()">Admin</button></li>
+    <li>
+      <button class="cart-btn" onclick="openCart()">
+        🛒 Cart
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:0.5rem" id="mobileRight">
+    <button class="cart-btn" onclick="openCart()" style="display:none" id="mobileCartBtn">
+      🛒 <span class="cart-badge" id="cartBadge2">0</span>
+    </button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div id="mobileMenu" class="mobile-menu">
+  <button class="nav-tab" onclick="showPage('home');closeMenu()">Home</button>
+  <button class="nav-tab" onclick="showPage('shop');closeMenu()">Shop</button>
+  <button class="nav-tab pink-tab" onclick="showPage('custom');closeMenu()">Custom Order</button>
+  <button class="nav-tab" onclick="showPage('signin');closeMenu()">Sign In</button>
+  
+  <button class="nav-tab admin-tab" onclick="checkAdmin();closeMenu()">Admin</button>
+  <button class="nav-tab" onclick="openCart();closeMenu()">🛒 Cart</button>
+</div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Precision 3D Printing — Flowery Branch, GA</div>
+      <h1 class="hero-title">
+        BUILD AT THE<br>
+        <span class="blue">ATOMIC</span> <span class="pink">LEVEL</span>
+      </h1>
+      <p class="hero-sub">Custom 3D printed parts, prototypes, and unique designs. Neon-bright quality. Cyberpunk precision. Real-world results.</p>
+      <div class="hero-actions">
+        <button class="btn-blue" onclick="showPage('shop')">Shop Now</button>
+        <button class="btn-pink" onclick="showPage('custom')">Custom Order</button>
+      </div>
+      <div style="margin-top:1rem;display:inline-flex;align-items:center;gap:10px;background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.2);border-radius:4px;padding:0.6rem 1rem;font-family:var(--font-mono);font-size:0.75rem;color:rgba(255,45,120,0.85);letter-spacing:0.04em">
+        💵 <span>Local pickup available — <strong style="color:var(--pink)">pay with cash!</strong></span>
+      </div>
+    </div>
+    <div class="atom-hero">
+      <div class="atom-ring r2"></div>
+      <div class="atom-ring r1"></div>
+      <div class="atom-el e1"></div>
+      <div class="atom-el e2"></div>
+      <div class="atom-el e3"></div>
+      <div class="atom-nucleus"></div>
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="sec-label">What We Offer</div>
+    <h2 class="sec-title">Services Built for Every Scale</h2>
+    <p class="sec-sub">From one-off prototypes to production runs, we deliver precision at every layer.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem">
+      <div style="background:var(--card);border:1px solid rgba(0,191,255,0.1);border-radius:6px;padding:1.5rem">
+        <div style="color:var(--blue);font-size:1.5rem;margin-bottom:0.8rem">◈</div>
+        <div style="font-family:var(--font-display);font-weight:700;color:#fff;margin-bottom:0.5rem;letter-spacing:0.04em">Rapid Prototyping</div>
+        <p style="font-size:0.82rem;color:rgba(200,216,240,0.5);line-height:1.65">Parts in 24–48 hours. Perfect for iteration and engineering validation.</p>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(255,45,120,0.1);border-radius:6px;padding:1.5rem">
+        <div style="color:var(--pink);font-size:1.5rem;margin-bottom:0.8rem">◉</div>
+        <div style="font-family:var(--font-display);font-weight:700;color:#fff;margin-bottom:0.5rem;letter-spacing:0.04em">Production Runs</div>
+        <p style="font-size:0.82rem;color:rgba(200,216,240,0.5);line-height:1.65">Scalable short-run manufacturing with consistent quality throughout.</p>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(0,191,255,0.1);border-radius:6px;padding:1.5rem">
+        <div style="color:var(--blue);font-size:1.5rem;margin-bottom:0.8rem">⬡</div>
+        <div style="font-family:var(--font-display);font-weight:700;color:#fff;margin-bottom:0.5rem;letter-spacing:0.04em">Custom Design</div>
+        <p style="font-size:0.82rem;color:rgba(200,216,240,0.5);line-height:1.65">Send a sketch or idea and we'll model and print it for you.</p>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(255,45,120,0.1);border-radius:6px;padding:1.5rem">
+        <div style="color:var(--pink);font-size:1.5rem;margin-bottom:0.8rem">⬥</div>
+        <div style="font-family:var(--font-display);font-weight:700;color:#fff;margin-bottom:0.5rem;letter-spacing:0.04em">Post-Processing</div>
+        <p style="font-size:0.82rem;color:rgba(200,216,240,0.5);line-height:1.65">Sanding, painting, finishing. Delivery-ready professional parts.</p>
+      </div>
+    </div>
+  </section>
+
+  <div style="text-align:center;padding:3.5rem 2rem 2rem;background:var(--darker);border-top:1px solid rgba(0,191,255,0.06)">
+    <div style="display:inline-flex;flex-direction:column;align-items:center;gap:0.8rem">
+      <div style="width:100px;height:100px;border-radius:50%;border:2px solid rgba(0,191,255,0.3);background:var(--card);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(0,191,255,0.1),0 0 60px rgba(255,45,120,0.06);position:relative">
+        <div style="position:absolute;inset:4px;border-radius:50%;border:1px solid rgba(255,45,120,0.15)"></div>
+        <svg width="52" height="52" viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="5" fill="#FF2D78"/>
+          <ellipse cx="14" cy="14" rx="12" ry="5" stroke="#00BFFF" stroke-width="1" fill="none" transform="rotate(30 14 14)"/>
+          <ellipse cx="14" cy="14" rx="12" ry="5" stroke="#00BFFF" stroke-width="1" fill="none" transform="rotate(-30 14 14)"/>
+          <circle cx="14" cy="2" r="2.5" fill="#00BFFF"/>
+        </svg>
+      </div>
+      <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:#fff;letter-spacing:0.12em">ATOMIC PRINTS</div>
+      <div style="font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.22em;color:rgba(200,216,240,0.35)">EST. 2026</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">⬡ ATOMIC PRINTS</div>
+    <ul class="footer-links">
+      <li><a href="#" onclick="showPage('shop');return false">Shop</a></li>
+      <li><a href="#" onclick="showPage('custom');return false">Custom Order</a></li>
+      <li><a href="#" onclick="showPage('signin');return false">Sign In</a></li>
+      
+    </ul>
+    <div class="footer-copy">© 2026 Atomic Prints. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- SHOP PAGE -->
+<div class="page" id="page-shop">
+  <section class="section">
+    <div class="sec-label">Store</div>
+    <h2 class="sec-title">Shop Atomic Prints</h2>
+    <p class="sec-sub">Browse our ready-to-ship 3D printed products.</p>
+    <div class="shop-filters" id="shopFilters">
+      <button class="filter-btn active" onclick="filterShop('all',this)">All</button>
+      <button class="filter-btn" onclick="filterShop('decor',this)">Decor</button>
+      <button class="filter-btn" onclick="filterShop('functional',this)">Functional</button>
+      <button class="filter-btn" onclick="filterShop('custom',this)">Custom</button>
+      <button class="filter-btn" onclick="filterShop('other',this)">Other</button>
+    </div>
+    <div class="shop-grid" id="shopGrid">
+      <div class="empty-shop">// NO PRODUCTS UPLOADED YET //<br><br>Admin: upload products via the Admin tab</div>
+    </div>
+  </section>
+</div>
+
+<!-- CUSTOM ORDER PAGE -->
+<div class="page" id="page-custom">
+  <div class="order-wrap">
+    <div class="sec-label pink">Custom Orders</div>
+    <h2 class="sec-title" style="margin-bottom:0.4rem">Request a Custom Print</h2>
+    <p style="font-size:0.9rem;color:rgba(200,216,240,0.45);margin-bottom:2rem">Fill out the form below and we'll get back to you within 24 hours with a quote.</p>
+    <div class="order-card">
+      <div id="customSuccess" class="success-msg">
+        ✓ ORDER REQUEST RECEIVED — We'll contact you within 24 hours with your quote.
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="custFirst" placeholder="Jane">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="custLast" placeholder="Doe">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="custEmail" placeholder="jane@example.com">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Color Preference</label>
+          <input type="text" id="custColor" placeholder="e.g. Red, Black, Glow in the Dark...">
+        </div>
+        <div class="form-group">
+          <label>Quantity</label>
+          <input type="number" id="custQty" placeholder="1" min="1" value="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Project Description</label>
+        <textarea id="custDesc" placeholder="Describe your project: dimensions, purpose, color preferences, finish quality..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Upload Reference Files (optional)</label>
+        <div class="file-drop" id="custDrop" onclick="document.getElementById('custFile').click()" ondragover="handleDrag(event,this)" ondragleave="handleDragLeave(this)" ondrop="handleDrop(event,'custFiles','custFileList')">
+          <div class="file-drop-icon">📁</div>
+          <div class="file-drop-label">Drop files or click to upload</div>
+          <div class="file-drop-sub">STL, OBJ, STEP, JPG, PNG — Max 50MB</div>
+        </div>
+        <input type="file" id="custFile" multiple accept=".stl,.obj,.step,.jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleFileInput(event,'custFiles','custFileList')">
+        <div class="file-list" id="custFileList"></div>
+      </div>
+      <button class="btn-pink" style="width:100%;justify-content:center" onclick="submitCustomOrder()">Submit Custom Order Request →</button>
+    </div>
+  </div>
+</div>
+
+<!-- SIGN IN PAGE -->
+<div class="page" id="page-signin">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-title">Sign In</div>
+      <div class="auth-sub">Access your order history and saved projects.</div>
+      <div id="signinError" class="error-msg">Invalid email or password.</div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="siEmail" placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="siPass" placeholder="••••••••">
+      </div>
+      <button class="btn-blue" style="width:100%" onclick="signIn()">Sign In →</button>
+      <div class="form-divider">— or —</div>
+      <button class="btn-ghost" style="width:100%" onclick="showRegister()">Create Account</button>
+      <div class="auth-footer">
+        <a href="#" class="auth-link" onclick="forgotPass();return false">Forgot password?</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER PAGE (hidden) -->
+<div class="page" id="page-register">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-title">Create Account</div>
+      <div class="auth-sub">Join Atomic Prints to track orders and save projects.</div>
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="regFirst" placeholder="Jane"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="regLast" placeholder="Doe"></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="you@email.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="regPass" placeholder="Min 8 characters"></div>
+      <button class="btn-blue" style="width:100%" onclick="createAccount()">Create Account →</button>
+      <div class="auth-footer">Already have an account? <a href="#" class="auth-link" onclick="showPage('signin');return false">Sign in</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN PAGE -->
+<div class="page" id="page-adminlogin">
+  <div class="auth-wrap">
+    <div class="auth-card pink-card">
+      <div class="auth-title" style="color:var(--pink)">Admin Access</div>
+      <div class="auth-sub">Restricted — authorized personnel only.</div>
+      <div id="adminLoginError" class="error-msg">Incorrect admin credentials.</div>
+      <div class="form-group pink-field">
+        <label>Admin Username</label>
+        <input type="text" id="adminUserInput" placeholder="username" onkeydown="if(event.key==='Enter')verifyAdmin()">
+      </div>
+      <div class="form-group pink-field">
+        <label>Admin Password</label>
+        <input type="password" id="adminPassInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')verifyAdmin()">
+      </div>
+      <button class="btn-pink" style="width:100%" onclick="verifyAdmin()">Enter Admin Panel →</button>
+      <div class="auth-footer"><a href="#" class="auth-link" onclick="showPage('home');return false">← Back to site</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="page" id="page-admin">
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <div>
+        <div class="sec-label pink">Admin Panel</div>
+        <h2 class="sec-title" style="margin:0">Manage Products</h2>
+      </div>
+      <button class="btn-ghost" onclick="logoutAdmin()">Logout</button>
+    </div>
+
+    <div class="admin-stats">
+      <div class="admin-stat"><span class="n" id="adminTotalProducts">0</span><span class="l">Total Products</span></div>
+      <div class="admin-stat"><span class="n" id="adminOrders">0</span><span class="l">Custom Orders</span></div>
+      <div class="admin-stat"><span class="n" id="adminUsers">0</span><span class="l">Registered Users</span></div>
+    </div>
+
+    <!-- MANAGE ADMINS -->
+    <div class="upload-section" style="border-color:rgba(255,45,120,0.15);margin-bottom:2rem">
+      <div class="upload-title" style="margin-bottom:1rem">Manage Admins</div>
+      <div class="form-row">
+        <div class="form-group"><label>New Admin Username</label><input type="text" id="newAdminUser" placeholder="e.g. staff1"></div>
+        <div class="form-group"><label>New Admin Password</label><input type="password" id="newAdminPass" placeholder="Min 6 characters"></div>
+      </div>
+      <button class="btn-pink" onclick="addAdmin()" style="margin-bottom:1rem">Add Admin →</button>
+      <div id="addAdminSuccess" class="success-msg">✓ New admin added successfully.</div>
+      <div id="adminList" style="margin-top:0.8rem;display:flex;flex-direction:column;gap:0.4rem"></div>
+    </div>
+
+    <!-- UPLOAD PRODUCT FORM -->
+    <div class="upload-section">
+      <div class="upload-title">Upload New Product</div>
+      <div class="form-row">
+        <div class="form-group"><label>Product Name</label><input type="text" id="prodName" placeholder="e.g. Dragon Figurine"></div>
+        <div class="form-group"><label>Price ($)</label><input type="number" id="prodPrice" placeholder="19.99" step="0.01" min="0"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="prodCat">
+            <option value="decor">Decor</option>
+            <option value="functional">Functional</option>
+            <option value="custom">Custom</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Material</label><input type="text" id="prodMat" placeholder="e.g. PLA, PETG, Resin"></div>
+      </div>
+      <div class="form-group"><label>Description</label><textarea id="prodDesc" placeholder="Describe the product — size, features, use case..."></textarea></div>
+      <div class="form-group">
+        <label>Product Images</label>
+        <div class="file-drop" id="adminDrop" onclick="document.getElementById('adminImgFile').click()" ondragover="handleDrag(event,this)" ondragleave="handleDragLeave(this)" ondrop="handleAdminImgDrop(event)">
+          <div class="file-drop-icon">🖼</div>
+          <div class="file-drop-label">Upload product photos</div>
+          <div class="file-drop-sub">JPG, PNG, WEBP — First image = main thumbnail</div>
+        </div>
+        <input type="file" id="adminImgFile" multiple accept="image/*" style="display:none" onchange="handleAdminImages(event)">
+        <div class="img-preview-grid" id="adminImgPreview"></div>
+      </div>
+      <button class="btn-blue" onclick="uploadProduct()">Upload Product to Shop →</button>
+      <div id="uploadSuccess" class="success-msg">✓ Product uploaded successfully and is now live in the shop.</div>
+    </div>
+
+    <!-- PRODUCTS TABLE -->
+    <div class="products-table">
+      <div class="table-head">
+        <div>Product</div><div>Price</div><div>Category</div><div>Actions</div>
+      </div>
+      <div id="adminProductList">
+        <div class="no-products">// No products yet — upload above //</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART MODAL -->
+<div class="modal-overlay" id="cartModal">
+  <div class="modal">
+    <div id="cartView">
+      <div class="modal-title">
+        Shopping Cart
+        <button class="modal-close" onclick="closeCart()">✕</button>
+      </div>
+      <div id="cartItems"><div class="cart-empty">// Cart is empty //</div></div>
+      <div id="cartFooter" style="display:none">
+        <div class="cart-total" style="flex-direction:column;align-items:stretch;gap:0.4rem">
+          <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:rgba(200,216,240,0.5)">
+            <span>Subtotal</span><span id="cartSubtotal">$0.00</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:rgba(200,216,240,0.5)">
+            <span>Shipping</span><span style="color:var(--pink)" id="cartShipping">$5.00</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:1rem;font-weight:700;color:#fff;border-top:1px solid rgba(0,191,255,0.1);padding-top:0.6rem;margin-top:0.2rem">
+            <span>Total</span><span class="total-amt" id="cartTotal">$0.00</span>
+          </div>
+        </div>
+        <div style="background:rgba(255,45,120,0.06);border:1px solid rgba(255,45,120,0.15);border-radius:4px;padding:0.6rem 0.8rem;margin:0.8rem 0;font-family:var(--font-mono);font-size:0.72rem;color:rgba(255,45,120,0.8);letter-spacing:0.05em">
+          💵 Local pickup available — pay with cash!
+        </div>
+        <button class="btn-blue" style="width:100%;margin-top:0.5rem" onclick="goToCheckout()">Proceed to Checkout →</button>
+      </div>
+    </div>
+    <div id="checkoutView" style="display:none">
+      <div class="modal-title">
+        Checkout
+        <button class="modal-close" onclick="closeCart()">✕</button>
+      </div>
+      <div id="checkoutSuccess" class="success-msg" style="margin-bottom:1rem">
+        ✓ ORDER PLACED! We'll confirm your order and ship within 2–3 business days.
+      </div>
+      <div id="checkoutForm">
+        <div style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.8rem">Shipping Info</div>
+        <div class="form-row" style="margin-bottom:0.8rem">
+          <div class="form-group" style="margin:0"><label>First Name</label><input type="text" id="chkFirst" placeholder="Jane"></div>
+          <div class="form-group" style="margin:0"><label>Last Name</label><input type="text" id="chkLast" placeholder="Doe"></div>
+        </div>
+        <div class="form-group"><label>Email</label><input type="email" id="chkEmail" placeholder="jane@email.com"></div>
+        <div class="form-group"><label>Address</label><input type="text" id="chkAddr" placeholder="123 Main St"></div>
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:0.8rem"><label>City</label><input type="text" id="chkCity" placeholder="Flowery Branch"></div>
+          <div class="form-group" style="margin-bottom:0.8rem"><label>ZIP</label><input type="text" id="chkZip" placeholder="30542"></div>
+        </div>
+        <div style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin:1rem 0 0.8rem">Payment</div>
+        <div class="form-group"><label>Name on Card</label><input type="text" id="chkCardName" placeholder="Jane Doe"></div>
+        <div class="form-group"><label>Card Number</label><input type="text" id="chkCardNum" placeholder="1234 5678 9012 3456" maxlength="19" oninput="fmtCard(this)"></div>
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:0.8rem"><label>Expiry</label><input type="text" id="chkExp" placeholder="MM/YY" maxlength="5" oninput="fmtExp(this)"></div>
+          <div class="form-group" style="margin-bottom:0.8rem"><label>CVV</label><input type="text" id="chkCvv" placeholder="123" maxlength="4"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.8rem 0;border-top:1px solid rgba(0,191,255,0.1);margin-top:0.5rem">
+          <span style="font-family:var(--font-display);font-weight:700;color:#fff">Order Total</span>
+          <span style="font-family:var(--font-mono);color:var(--blue);font-size:1.1rem" id="chkTotal">$0.00</span>
+        </div>
+        <div id="chkError" class="error-msg">Please fill in all fields.</div>
+        <div style="display:flex;gap:0.8rem">
+          <button class="btn-ghost" onclick="backToCart()">← Back</button>
+          <button class="btn-pink" style="flex:1" onclick="placeOrder()">Place Order →</button>
+        </div>
+        <div style="text-align:center;margin-top:0.8rem;font-family:var(--font-mono);font-size:0.68rem;color:rgba(200,216,240,0.25);letter-spacing:0.05em">🔒 This is a demo site — do not enter real card info</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── SUPABASE CONFIG ──
+const SB_URL = 'https://hgiefuuvtkiyllmhyxou.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnaWVmdXV2dGtpeWxsbWh5eG91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzk4MzIsImV4cCI6MjA5Mzc1NTgzMn0.AR8RAXmZC5spxr3yd1oshJBlfRcI-DfsmH23OGXZ7WI';
+const sbHeaders = {'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
+
+async function sbFetch(path, options={}){
+  const res = await fetch(SB_URL+'/rest/v1/'+path, {headers:sbHeaders, ...options});
+  if(!res.ok){ const t=await res.text(); console.error('Supabase error:',t); return null; }
+  try{ return await res.json(); }catch(e){ return null; }
+}
+
+// ── STATE ──
+let products = [];
+let cart = JSON.parse(localStorage.getItem('atomicCart') || '[]');
+let users = JSON.parse(localStorage.getItem('atomicUsers') || '[]');
+let customOrders = JSON.parse(localStorage.getItem('atomicCustomOrders') || '[]');
+let currentUser = JSON.parse(localStorage.getItem('atomicCurrentUser') || 'null');
+let adminImages = [];
+let activeFilter = 'all';
+
+// Admins still stored locally (sensitive)
+let admins = JSON.parse(localStorage.getItem('atomicAdmins') || 'null');
+if(!admins) {
+  admins = [{username:'admin', password:'AtomicAdmin2026'}];
+  localStorage.setItem('atomicAdmins', JSON.stringify(admins));
+}
+
+function saveLocal(){
+  localStorage.setItem('atomicCart', JSON.stringify(cart));
+  localStorage.setItem('atomicUsers', JSON.stringify(users));
+  localStorage.setItem('atomicCustomOrders', JSON.stringify(customOrders));
+  localStorage.setItem('atomicCurrentUser', JSON.stringify(currentUser));
+  localStorage.setItem('atomicAdmins', JSON.stringify(admins));
+}
+// keep old save() working
+function save(){ saveLocal(); }
+
+// ── LOAD PRODUCTS FROM SUPABASE ──
+async function loadProducts(){
+  const data = await sbFetch('products?select=*&order=id.desc');
+  if(data){ products = data; renderShop(); }
+}
+
+// ── SUPABASE PRODUCT CRUD ──
+async function sbAddProduct(product){
+  const row = {
+    name: product.name,
+    price: product.price,
+    category: product.category,
+    material: product.material||'',
+    description: product.description||'',
+    images: JSON.stringify(product.images||[]),
+    added: product.added
+  };
+  const res = await sbFetch('products', {
+    method:'POST',
+    headers:{...sbHeaders,'Prefer':'return=representation'},
+    body: JSON.stringify(row)
+  });
+  return res;
+}
+
+async function sbDeleteProduct(id){
+  await sbFetch('products?id=eq.'+id, {method:'DELETE'});
+}
+
+// ── PAGE NAV ──
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const tabs = {'home':0,'shop':1,'custom':2,'signin':3,'admin':5};
+  const allTabs = document.querySelectorAll('.nav-tab');
+  if(tabs[id]!==undefined) allTabs[tabs[id]].classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='shop') loadProducts();
+  if(id==='admin'){loadProducts().then(()=>{updateAdminStats();renderAdminProducts();});renderAdminList();}
+}
+
+// ── MULTI-ADMIN ──
+function checkAdmin(){
+  if(localStorage.getItem('atomicAdminAuth')==='yes') showPage('admin');
+  else showPage('adminlogin');
+}
+function verifyAdmin(){
+  const u = document.getElementById('adminUserInput').value.trim();
+  const p = document.getElementById('adminPassInput').value;
+  const match = admins.find(a=>a.username===u && a.password===p);
+  if(match){
+    localStorage.setItem('atomicAdminAuth','yes');
+    localStorage.setItem('atomicAdminUser', u);
+    document.getElementById('adminLoginError').classList.remove('show');
+    showPage('admin');
+  } else {
+    document.getElementById('adminLoginError').classList.add('show');
+  }
+}
+function logoutAdmin(){
+  localStorage.removeItem('atomicAdminAuth');
+  localStorage.removeItem('atomicAdminUser');
+  showPage('home');
+}
+function addAdmin(){
+  const u = document.getElementById('newAdminUser').value.trim();
+  const p = document.getElementById('newAdminPass').value;
+  if(!u||!p){toast('Username and password required','pink');return}
+  if(p.length<6){toast('Password must be 6+ characters','pink');return}
+  if(admins.find(a=>a.username===u)){toast('Username already exists','pink');return}
+  admins.push({username:u, password:p});
+  save();
+  document.getElementById('newAdminUser').value='';
+  document.getElementById('newAdminPass').value='';
+  document.getElementById('addAdminSuccess').classList.add('show');
+  setTimeout(()=>document.getElementById('addAdminSuccess').classList.remove('show'),3000);
+  renderAdminList();
+  toast('Admin "'+u+'" added!');
+}
+function removeAdmin(u){
+  const current = localStorage.getItem('atomicAdminUser');
+  if(u===current){toast('Cannot remove yourself','pink');return}
+  if(admins.length<=1){toast('Must keep at least one admin','pink');return}
+  if(!confirm('Remove admin "'+u+'"?')) return;
+  admins = admins.filter(a=>a.username!==u);
+  save(); renderAdminList();
+  toast('Admin removed','pink');
+}
+function renderAdminList(){
+  const el = document.getElementById('adminList');
+  if(!el) return;
+  const current = localStorage.getItem('atomicAdminUser');
+  el.innerHTML = admins.map(a=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,45,120,0.05);border:1px solid rgba(255,45,120,0.1);border-radius:4px;padding:0.5rem 0.8rem">
+      <span style="font-family:var(--font-mono);font-size:0.8rem;color:#fff">${a.username} ${a.username===current?'<span style="color:var(--pink);font-size:0.7rem">(you)</span>':''}</span>
+      ${a.username!==current?`<button class="del-btn" onclick="removeAdmin('${a.username}')">Remove</button>`:''}
+    </div>
+  `).join('');
+}
+
+// ── AUTH ──
+function signIn(){
+  const em = document.getElementById('siEmail').value.trim();
+  const pw = document.getElementById('siPass').value;
+  const user = users.find(u=>u.email===em && u.password===pw);
+  if(user){
+    currentUser = user;
+    save();
+    document.getElementById('signinError').classList.remove('show');
+    toast('Signed in as '+user.firstName+'!');
+    showPage('home');
+  } else {
+    document.getElementById('signinError').classList.add('show');
+  }
+}
+function showRegister(){showPage('register')}
+function createAccount(){
+  const f = document.getElementById('regFirst').value.trim();
+  const l = document.getElementById('regLast').value.trim();
+  const e = document.getElementById('regEmail').value.trim();
+  const p = document.getElementById('regPass').value;
+  if(!f||!e||!p){toast('Please fill all required fields','pink');return}
+  if(p.length<8){toast('Password must be 8+ characters','pink');return}
+  if(users.find(u=>u.email===e)){toast('Email already registered','pink');return}
+  const user={id:Date.now(),firstName:f,lastName:l,email:e,password:p};
+  users.push(user);currentUser=user;save();
+  toast('Account created! Welcome, '+f+'!');
+  showPage('home');
+}
+function forgotPass(){toast('Password reset link sent to your email (demo)','pink')}
+
+// ── SHOP ──
+function renderShop(){
+  const grid = document.getElementById('shopGrid');
+  if(!grid) return;
+  let filtered = activeFilter==='all' ? products : products.filter(p=>p.category===activeFilter);
+  if(filtered.length===0){
+    grid.innerHTML='<div class="empty-shop">// NO PRODUCTS YET //<br><br>Admin: upload products via the Admin tab</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(p=>{
+    let imgs = [];
+    try{ imgs = typeof p.images==='string' ? JSON.parse(p.images) : (p.images||[]); }catch(e){}
+    return `
+    <div class="product-card" data-cat="${p.category}">
+      <div class="product-img">
+        ${imgs.length?`<img src="${imgs[0]}" alt="${p.name}">`:`<div class="img-placeholder"><div style="font-size:2rem;opacity:0.3">⬡</div><div>${p.category.toUpperCase()}</div></div>`}
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.description||''}</div>
+        <div class="product-price">
+          <span>$${parseFloat(p.price).toFixed(2)}</span>
+          <span class="tag">${p.material||p.category}</span>
+        </div>
+        <button class="add-btn" onclick='addToCart(${p.id})'>+ Add to Cart</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterShop(cat, btn){
+  activeFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderShop();
+}
+
+// ── CART ──
+function addToCart(id){
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  const ex = cart.find(x=>x.id===id);
+  if(ex) ex.qty=(ex.qty||1)+1;
+  else cart.push({...p,qty:1});
+  save();updateCartBadge();
+  toast('Added "'+p.name+'" to cart!');
+}
+
+function cartSubtotal(){
+  return cart.reduce((a,b)=>a+parseFloat(b.price)*(b.qty||1),0);
+}
+
+function openCart(){
+  const el = document.getElementById('cartModal');
+  document.getElementById('cartView').style.display='block';
+  document.getElementById('checkoutView').style.display='none';
+  el.classList.add('open');
+  const items = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+  if(cart.length===0){
+    items.innerHTML='<div class="cart-empty">// Cart is empty //</div>';
+    footer.style.display='none';return;
+  }
+  items.innerHTML = cart.map(p=>`
+    <div class="cart-item">
+      <span class="cart-item-name">${p.name} <span style="color:rgba(200,216,240,0.35);font-size:0.8rem">×${p.qty||1}</span></span>
+      <span class="cart-item-price">$${(parseFloat(p.price)*(p.qty||1)).toFixed(2)}</span>
+      <button class="cart-item-rm" onclick="removeFromCart(${p.id})">✕</button>
+    </div>
+  `).join('');
+  const sub = cartSubtotal();
+  document.getElementById('cartSubtotal').textContent='$'+sub.toFixed(2);
+  document.getElementById('cartTotal').textContent='$'+(sub+5).toFixed(2);
+  footer.style.display='block';
+}
+function closeCart(){
+  document.getElementById('cartModal').classList.remove('open');
+}
+function removeFromCart(id){
+  cart=cart.filter(x=>x.id!==id);save();updateCartBadge();openCart();
+}
+function goToCheckout(){
+  document.getElementById('cartView').style.display='none';
+  document.getElementById('checkoutView').style.display='block';
+  const sub = cartSubtotal();
+  document.getElementById('chkTotal').textContent='$'+(sub+5).toFixed(2);
+  document.getElementById('checkoutSuccess').classList.remove('show');
+  document.getElementById('chkError').classList.remove('show');
+  document.getElementById('checkoutForm').style.display='block';
+}
+function backToCart(){
+  document.getElementById('cartView').style.display='block';
+  document.getElementById('checkoutView').style.display='none';
+}
+function fmtCard(el){
+  let v=el.value.replace(/\D/g,'').substring(0,16);
+  el.value=v.replace(/(.{4})/g,'$1 ').trim();
+}
+function fmtExp(el){
+  let v=el.value.replace(/\D/g,'');
+  if(v.length>=2) v=v.substring(0,2)+'/'+v.substring(2,4);
+  el.value=v;
+}
+function placeOrder(){
+  const fields=[
+    document.getElementById('chkFirst').value,
+    document.getElementById('chkLast').value,
+    document.getElementById('chkEmail').value,
+    document.getElementById('chkAddr').value,
+    document.getElementById('chkCity').value,
+    document.getElementById('chkZip').value,
+    document.getElementById('chkCardName').value,
+    document.getElementById('chkCardNum').value,
+    document.getElementById('chkExp').value,
+    document.getElementById('chkCvv').value,
+  ];
+  if(fields.some(f=>!f.trim())){
+    document.getElementById('chkError').classList.add('show');return;
+  }
+  document.getElementById('chkError').classList.remove('show');
+  document.getElementById('checkoutForm').style.display='none';
+  document.getElementById('checkoutSuccess').classList.add('show');
+  cart=[];save();updateCartBadge();
+  toast('Order placed! Thank you! 🎉');
+}
+
+// ── CUSTOM ORDER ──
+let custFiles2=[];
+function submitCustomOrder(){
+  const fn=document.getElementById('custFirst').value.trim();
+  const ln=document.getElementById('custLast').value.trim();
+  const em=document.getElementById('custEmail').value.trim();
+  const desc=document.getElementById('custDesc').value.trim();
+  if(!fn||!em||!desc){toast('Please fill in name, email, and description','pink');return}
+  const order={id:Date.now(),name:fn+' '+ln,email:em,
+    color:document.getElementById('custColor').value,
+    qty:document.getElementById('custQty').value,
+    description:desc,submitted:new Date().toLocaleDateString()};
+  customOrders.push(order);save();
+  document.getElementById('customSuccess').classList.add('show');
+  toast('Order submitted! We\'ll contact you soon.');
+}
+
+// ── ADMIN PRODUCTS ──
+async function uploadProduct(){
+  const name=document.getElementById('prodName').value.trim();
+  const price=document.getElementById('prodPrice').value;
+  const desc=document.getElementById('prodDesc').value.trim();
+  if(!name||!price){toast('Product name and price are required','pink');return}
+  const btn = document.querySelector('[onclick="uploadProduct()"]');
+  if(btn){ btn.textContent='Uploading...'; btn.disabled=true; }
+  const product={
+    name, price:parseFloat(price),
+    category:document.getElementById('prodCat').value,
+    material:document.getElementById('prodMat').value,
+    description:desc, images:adminImages.slice(),
+    added:new Date().toLocaleDateString()
+  };
+  const result = await sbAddProduct(product);
+  if(btn){ btn.textContent='Upload Product to Shop →'; btn.disabled=false; }
+  if(!result){ toast('Upload failed — check Supabase connection','pink'); return; }
+  await loadProducts();
+  document.getElementById('prodName').value='';
+  document.getElementById('prodPrice').value='';
+  document.getElementById('prodDesc').value='';
+  document.getElementById('prodMat').value='';
+  document.getElementById('adminImgPreview').innerHTML='';
+  adminImages=[];
+  document.getElementById('uploadSuccess').classList.add('show');
+  setTimeout(()=>document.getElementById('uploadSuccess').classList.remove('show'),4000);
+  updateAdminStats();renderAdminProducts();
+  toast('Product "'+name+'" is now live in the shop!');
+}
+function renderAdminProducts(){
+  const el=document.getElementById('adminProductList');
+  if(!el) return;
+  if(products.length===0){el.innerHTML='<div class="no-products">// No products yet — upload above //</div>';return}
+  el.innerHTML=products.map(p=>`
+    <div class="table-row">
+      <div class="tname">${p.name}</div>
+      <div class="tprice">$${parseFloat(p.price).toFixed(2)}</div>
+      <div><span class="tcat">${p.category}</span></div>
+      <div class="tactions">
+        <button class="del-btn" onclick="deleteProduct(${p.id})">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+async function deleteProduct(id){
+  if(!confirm('Delete this product?')) return;
+  await sbDeleteProduct(id);
+  await loadProducts();
+  renderAdminProducts();updateAdminStats();
+  toast('Product deleted','pink');
+}
+function updateAdminStats(){
+  document.getElementById('adminTotalProducts').textContent=products.length;
+  document.getElementById('adminOrders').textContent=customOrders.length;
+  document.getElementById('adminUsers').textContent=users.length;
+}
+function handleAdminImages(e){
+  Array.from(e.target.files).forEach(f=>{
+    const r=new FileReader();
+    r.onload=ev=>{adminImages.push(ev.target.result);renderAdminImagePreview()};
+    r.readAsDataURL(f);
+  });
+}
+function handleAdminImgDrop(e){
+  e.preventDefault();handleDragLeave(document.getElementById('adminDrop'));
+  Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/')).forEach(f=>{
+    const r=new FileReader();
+    r.onload=ev=>{adminImages.push(ev.target.result);renderAdminImagePreview()};
+    r.readAsDataURL(f);
+  });
+}
+function renderAdminImagePreview(){
+  const el=document.getElementById('adminImgPreview');
+  el.innerHTML=adminImages.map((src,i)=>`
+    <div class="img-preview-item">
+      <img src="${src}" alt="preview">
+      <button class="rm" onclick="removeAdminImg(${i})">✕</button>
+    </div>
+  `).join('');
+}
+function removeAdminImg(i){adminImages.splice(i,1);renderAdminImagePreview()}
+
+// ── FILE HANDLING ──
+function handleFileInput(e,key,listId){
+  custFiles2=Array.from(e.target.files);renderFileList(listId,custFiles2);
+}
+function renderFileList(id,files){
+  const el=document.getElementById(id);
+  if(!files.length){el.innerHTML='';return}
+  el.innerHTML=files.map((f,i)=>`
+    <div class="file-item">
+      <span>${f.name} (${(f.size/1024/1024).toFixed(1)}MB)</span>
+      <button class="file-item-remove" onclick="removeFile(${i},'${id}')">✕</button>
+    </div>
+  `).join('');
+}
+function removeFile(i,id){custFiles2.splice(i,1);renderFileList(id,custFiles2)}
+function handleDrag(e,el){e.preventDefault();el.classList.add('dragover')}
+function handleDragLeave(el){el.classList.remove('dragover')}
+function handleDrop(e,key,listId){
+  e.preventDefault();handleDragLeave(e.currentTarget);
+  custFiles2=Array.from(e.dataTransfer.files);renderFileList(listId,custFiles2);
+}
+
+// ── TOAST ──
+function toast(msg,type='blue'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast show';
+  if(type==='pink') el.classList.add('pink-toast');
+  setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+// ── MOBILE ──
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+function updateCartBadge(){
+  const total = cart.reduce((a,b)=>a+(b.qty||1),0);
+  ['cartBadge','cartBadge2'].forEach(id=>{
+    const b=document.getElementById(id);
+    if(b){b.textContent=total;b.classList.toggle('visible',total>0)}
+  });
+}
+function checkMobile(){
+  const isMobile=window.innerWidth<=768;
+  const btn=document.getElementById('mobileCartBtn');
+  if(btn) btn.style.display=isMobile?'flex':'none';
+}
+window.addEventListener('resize',checkMobile);
+checkMobile();
+updateCartBadge();
+loadProducts();
+document.getElementById('cartModal').addEventListener('click',function(e){if(e.target===this)closeCart()});
+</script>
+</body>
+</html>
